@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPadOS Version History</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Rubik", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+            transition: transform 0.3s ease;
+        }
+        a:hover {
+            transform: scale(1.025);
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 8px 8px 15px #d1d1d1, -8px -8px 15px #ffffff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .header .headeridentity {
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo {
+            margin-left: 0;
+        }
+        .header .transferos {
+            font-family: "Rubik", sans-serif;
+            font-size: 20px;
+            color: black;
+            margin-left: 10px;
+        }
+        .content {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .content p {
+            font-family: "Rubik", sans-serif;
+            font-size: 15px;
+            color: #4f4f4f;
+            line-height: 1.6;
+        }
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            position: relative;
+        }
+        .monthcolumn, .yearcolumn {
+            flex: 0 0 23.75%;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .centercolumn {
+            flex: 0 0 48.75%;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .monthcolumn .column-title, .yearcolumn .column-title {
+            margin-bottom: 10px;
+        }
+        .date-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .date-header .year {
+            text-align: right;
+        }        
+        .centercolumn .list-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .centercolumn .firstlist {
+            flex: 0 0 38.5%;
+            margin-right: 10px;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .centercolumn .secondlist {
+            flex: 0 0 58.5%;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }        
+        .centercolumn .firstlist:last-child, .secondlist:last-child {
+            margin-right: 0;
+        }
+        .list p {
+            background-color: #d0d0d0;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 15px;
+            text-align: left;
+            box-shadow: 2px 2px 4px #bebebe, -2px -2px 4px #ffffff;
+            margin-bottom: 7.5px;
+        }
+        .list p.selected {
+            background-color: #d0d0d0;
+        }
+        .list p.notselected {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        footer {
+            font-family: "Rubik", sans-serif;
+            text-align: center;
+            font-size: 13px;
+            color: black;
+            margin-top: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: justify;
+        }
+        .close-btn {
+            background-color: #f7f2f2;
+            box-shadow: 
+                3px 3px 5px #d1d1d1, 
+                -3px -3px 5px #ffffff;
+            color: black;
+            width: 30px;
+            height: 30px;
+            font-size: 15px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .close-btn:hover {
+            background-color: #f1e9e9;
+            box-shadow: 
+                inset 2px 2px 3px #d1d1d1, 
+                inset -2px -2px 3px #ffffff;
+        }
+        .popup-trigger {
+            margin-bottom: 2.5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="headeridentity">
+                <a href="Lenon,_Danielle_OS_Version_History_Main.html"><img src="https://e7.pngegg.com/pngimages/991/940/png-clipart-apple-logo-apple-heart-logo-thumbnail.png" class="logo" alt=""><strong>OS Version History</strong></a>
+            </div>
+            <div class="transferos"><a href="Lenon,_Danielle_iOS_October_2024.html">iOS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>iPadOS</strong></div>
+        </div>
+        <div class="content">
+            <p>Welcome to iPadOS Version History! This version is exclusive to iPads because it evolved when it formerly ran iOS. We are looking back on what iPadOS versions looked like when released to the public. We are looking back on what iOS versions looked like when released to the public. The <strong>bolded texts</strong> are the public versions and the <u>underlined texts</u> are the exclusive versions.</p>
+            <br>
+            <p>1. The numbers in superscripted text versions state something.</p>
+            <p>2. These dates have referred to in GMT-07:00 (California Daylight Time) and GMT-08:00 (California Standard Time).</p>
+        </div>
+        <div class="date-info">
+            <div class="monthcolumn">
+                <h3 class="column-title">MONTH</h3>
+                <div class="list">
+                    <p class="selected"><strong>9</strong> SEPTEMBER</p>
+                    <p class="notselected"><a href="Lenon,_Danielle_iPadOS_October_2024.html"><strong>10</strong> OCTOBER</a></p>
+                </div>
+            </div>
+            <div class="centercolumn">
+                <div class="date-header">
+                    <h3 class="column-title">9 SEPTEMBER</h3>
+                    <h3 class="column-title year">2024</h3>
+                </div>
+                <div class="list-container">
+                    <div class="firstlist">
+                        <p id="ninesixteentwentytwentyfour" class="popup-trigger"><strong>9.16.2024</strong></p>
+                    </div>
+                    <div class="secondlist">
+                        <p id="detailsaboutipados18" class="popup-trigger"><strong>iPadOS 18</strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="yearcolumn">
+                <h3 class="column-title">YEAR</h3>
+                <div class="list">
+                    <p class="selected"><strong>2024</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <button class="close-btn" id="close-popup">X</button>
+                <h1>iPadOS 18</h1>
+                <br>
+                <h3><strong>Home Screen</strong></h3><br>
+                <ul>
+                    <li>Flexible arrangement to place app icons and widgets in any open position on the Home Screen, such as along the bottom or off to the side, to create the ideal layout for each page</li>
+                    <li>Dark icons give your Home Screen look a darker aesthetic, and can automatically adjust when your iPad enters Dark Mode, or always appear dark</li>
+                    <li>Color tinting lets you apply any color to app icons and widgets or have iPadOS suggest a color that complements your wallpaper</li>
+                    <li>Larger icons allow you to make all the app icons and widgets on your screen appear larger, removing the name underneath</li>
+                </ul>
+                <br>
+                <h3><strong>Photos</strong></h3><br>
+                <ul>
+                    <li>Photos app redesign features the biggest update ever with a simplified layout that puts everything into a single view</li>
+                    <li>Collections automatically organize your library by helpful topics that you can browse in a collage, grid, as a memory, or on a map</li>
+                    <li>Customization options let you reorder, add, and remove Collections rows, and add just the items you want to Pinned Collections to keep within easy reach</li>
+                    <li>Groups in People and Pets include photos of your favorite people or pets who frequently appear together</li>
+                    <li>Trips automatically organizes your travels into collections so you can relive each trip</li>
+                    <li>Recent Days lets you view your recent photos organized by day without clutter like screenshots</li>
+                    <li>Filter button in the grid helps you reduce clutter by filtering to specific media types, your favorites, or by hiding screenshots from the view</li>
+                    <li>Video speed control lets you slow down high frame rate video content with in and out points</li>
+                    <li>Utilities includes additional helpful collections like Documents, Receipts, QR codes, and more, and items you've recently edited, viewed, and shared</li>
+                    <li>Recovered album in Utilities surfaces images that are on your device but were not previously visible due to database corruption in a locked album</li>
+                </ul>
+                <br>
+                <h3><strong>Messages</strong></h3><br>
+                <ul>
+                    <li>Text effects bring your conversations to life by visually amplifying any letter, word, phrase, or emoji in iMessage with dynamic, animated effects like explode, ripple, and nod</li>
+                    <li>Text formatting lets you add bold, underline, italics, and strikethrough to any letter, word, or phrase in iMessage</li>
+                    <li>Emoji and sticker Tapbacks allow you to react to a message using any emoji or sticker, giving you access to the Tapbacks you and your friends send the most with just a swipe</li>
+                    <li>Send Later enables you to compose a message now and schedule it to send later</li>
+                </ul>
+                <br>
+                <h3><strong>Control Center</strong></h3><br>
+                <ul>
+                    <li>Redesigned Control Center features convenient groups of controls, the ability to arrange controls just the way you want, and support for controls from third-party apps</li>
+                    <li>Groups of controls can be accessed by continuously swiping from the right edge, including your most used controls, Home controls, Media Playback and Connectivity, with the option to build out entirely new groups too</li>
+                    <li>Controls gallery displays the full set of available controls, including controls from third-party apps, that you can add right into the group you choose</li>
+                    <li>Resizable controls let you drag from the lower right of a control from within Control Center</li>
+                </ul>
+                <br>
+                <h3><strong>Lock Screen</strong></h3><br>
+                <ul>
+                    <li>Custom Lock Screen controls let you choose controls from the controls gallery from your favorite apps</li>
+                    <li>Font options allow you to customize the time with 10 new numeral scripts in Bangla, Gujarati, Gurmukhi, Kannada, Malayalam, Meitei, Odia, Ol Chiki, Telugu, and Urdu</li>
+                </ul>
+                <br>
+                <h3><strong>Notes</strong></h3><br>
+                <ul>
+                    <li>Handwriting Refinement automatically refines your handwritten text in real-time to be smoother, straighter, and more legible (iPad models with A14 Bionic, or M1 and above)</li>
+                    <li>Paste as Handwriting lets you copy text from a webpage, document, or email and paste it in your own handwriting (iPad models with A14 Bionic, or M1 and above)</li>
+                    <li>Handwriting Reflow allows you to paste in the middle of paragraph or add some space and your written text will automatically reflow to fit your content</li>
+                    <li>Check Spelling for Handwriting underlines spelling errors and can fix them while keeping your own writing style (iPad models with A14 Bionic, or M1 and above)</li>
+                    <li>Math in Notes let you enter expressions and equations while typing or writing with your Apple Pencil to have them solve in your note</li>
+                    <li>Math Notes from Calculator automatically sync to your Notes in the Math Notes Smart Folder</li>
+                    <li>Audio recordings can be started right from inside a note, and kept with related comments, checklists, and documents</li>
+                    <li>Live transcriptions show as you record audio, and transcripts are fully searchable so you can always find what you need (iPad models with A14 Bionic, or M1 and above)</li>
+                    <li>Collapsible sections help you simplify and hide text in long notes; just tap next to a section header to lighten up your most text-heavy notes</li>
+                    <li>Highlight text in your note with a choice of five colors allows you to make your text standout</li>
+                </ul>
+                <br>
+                <h3><strong>Calculator</strong></h3><br>
+                <ul>
+                    <li>Math Notes let you evaluate expressions, assign variables and even draw graphs by simply typing or writing out math</li>
+                    <li>Solve written math naturally by writing out an equation horizontally or even vertically using Apple Pencil, and Math Notes will solve your expressions inline as soon as you write an equals sign</li>
+                    <li>Solve typed math in Math Notes, or type out math in other apps like Messages and Mail to see results as suggestions in your keyboard</li>
+                    <li>Variables let you assign a value to letters and words like “x=10” and can then be used to quickly solve an expression or graph and equation</li>
+                    <li>Graphs help you visualize written or typed equations, and can be zoomed in on, panned around, resized, or combined to show multiple equations at the same time</li>
+                    <li>History shows you your previous calculations so you can quickly get back to them or copy results to use in other apps</li>
+                    <li>Unit Conversions allow you to quickly convert categories of units like length, weight, currencies and more</li>
+                </ul>
+                <br>
+                <h3><strong>Gaming</strong></h3><br>
+                <ul>
+                    <li>Game Mode minimizes background activity to sustain the highest frame rates and dramatically improves responsiveness with wireless accessories like game controllers and AirPods</li>
+                </ul>
+                <br>
+                <h3><strong>Safari</strong></h3><br>
+                <ul>
+                    <li>Distraction Control helps you hide items on a webpage that you find disruptive to your browsing</li>
+                    <li>Highlights surface key information from the webpage you're visiting with summaries, locations, and more</li>
+                    <li>Redesigned Reader offers even more ways to enjoy articles with a streamlined view of the article you're reading, a summary, and a table of contents for longer articles</li>
+                </ul>
+                <br>
+                <h3><strong>Passwords</strong></h3><br>
+                <ul>
+                    <li>Passwords app lets you see all your credentials for websites and apps in one place, making it even easier to access your passwords, passkeys, Wi-Fi passwords, and verification codes</li>
+                    <li>Verification codes for two factor authentication can be set up right in Passwords so you can easily copy them or autofill them into Safari without opening an authenticator app</li>
+                    <li>Secure syncing ensures your accounts saved in Passwords sync seamlessly with iCloud with end-to-end encryption so you can access them on your other devices</li>
+                    <li>Windows support through the iCloud Passwords app so you can access your passwords on Windows devices</li>
+                </ul>
+                <br>
+                <h3><strong>SharePlay</strong></h3><br>
+                <ul>
+                    <li>Ask to share lets someone share their screen with you from Messages or while in a FaceTime call</li>
+                    <li>Draw to highlight lets you tap and draw directly on the screen being shared with you, helping your friends and family take the right actions on their own screen</li>
+                    <li>Remote control lets you assist more directly, you can ask for permission to remotely control their device and take the actions yourself. Only known contacts can request control and the device owner's actions will always take preference over remote ones</li>
+                </ul>
+                <br>
+                <h3><strong>Freeform</strong></h3><br>
+                <ul>
+                    <li>Scenes allow you to organize your content into sections, then save, label and order them as you like</li>
+                    <li>Send a Copy of your board with a link that anyone can use on their iPhone, iPad or Mac</li>
+                    <li>Handwriting Recognition allows you to select, search, translate, and copy the handwriting in your board as text</li>
+                    <li>Improved Diagramming lets you join objects together with magnetic connection lines that can be anchored anywhere</li>
+                    <li>Snap to Grid makes it easier to precisely align content of your board</li>
+                    <li>Math Results lets you write out a basic or scientific expression with an equals sign and you'll see results inserted or suggested inline on your board</li>
+                </ul>
+                <br>
+                <h3><strong>Designed for iPad</strong></h3><br>
+                <ul>
+                    <li>Redesigned tab bar floats above your app's content so you can focus on what matters and your favorite tabs stay within easy reach</li>
+                    <li>Updated sidebar gives you access to more within your apps, you can easily switch from the tab bar to an updated Sidebar that lets you dive deeper into your apps functionality like your list of playlists in Music, or all your favorite channels in the Apple TV app</li>
+                    <li>Updated Document Browser gives apps a distinct new look while also helping you jump back to your most recent documents more quickly in Pages, Numbers, Keynote, and Swift Playgrounds</li>
+                    <li>Refined Animations and fluid gestures in your apps make them feel even more delightful, responsive and fun</li>
+                </ul>
+                <br>
+                <h3><strong>Privacy</strong></h3><br>
+                <ul>
+                    <li>Locked apps let you protect your sensitive apps and the information inside them by requiring Face ID, Touch ID, or your passcode to open them and hiding the content from search, notifications, and other places across the system</li>
+                    <li>Hidden apps have the same protections as locked apps, plus they are placed in a new hidden apps folder that is locked, and you won't receive notifications or calls from the app</li>
+                    <li>Improved Contacts permission empower you to choose which contacts to share with an app</li>
+                    <li>Improved Bluetooth pairing lets you pair accessories seamlessly while keeping them private</li>
+                </ul>
+                <br>
+                <h3><strong>Maps</strong></h3><br>
+                <ul>
+                    <li>Topographic maps display features like trails, contour lines, elevation, and points of interest</li>
+                    <li>Hikes are available across all U.S. national parks and can be saved to your device to access while offline</li>
+                    <li>Custom walking and hiking routes can be created with just a few taps for hikes in the park, regular exercise routines in your neighborhood, walking tours while on vacation, and more</li>
+                    <li>Places Library combines all your saved places, guides, and hiking routes into one location for easy access</li>
+                </ul>
+                <br>
+                <h3><strong>Apple TV App</strong></h3><br>
+                <ul>
+                    <li>InSight delivers real-time information for every live-action Apple TV+ movies and shows that complements what you're watching onscreen</li>
+                    <li>Enhance Dialogue enables you to hear what's being said onscreen more clearly, especially when loud effects or music is playing</li>
+                    <li>Subtitles automatically appear at just the right times, like when the content language doesn't match your device language, when you mute the audio, or when you skip back while watching a program</li>
+                </ul>
+                <br>
+                <p>This release also includes other features and improvements:</p>
+                <br>
+                <ul>
+                    <li>Calendar lets you create, view, edit and complete reminders alongside with your events</li>
+                    <li>Recently Deleted list in Reminders lets you view and retrieve deleted reminders</li>
+                    <li>Guest access in Home app lets you provide visitors with date and time- based access to locks, garage doors, and alarm systemss</li>
+                    <li>Electricity usage and rate plan information in Home app are displayed for eligible customers when connecting their utility account, starting with Pacific Gas and Electric Company in California</li>
+                    <li>Repair Assistant prompts you to configure the genuine Apple parts replaced on your device after a repair (iPad Air models with M2 and iPad Pro models with M4)</li>
+                </ul>
+            </div>
+        </div>
+        <script>
+            const detailsaboutiPadOS18 = document.getElementById('detailsaboutipados18');
+            const ninesixteentwentytwentyfour = document.getElementById('ninesixteentwentytwentyfour');
+            const popup = document.getElementById('popup');
+            const closePopup = document.getElementById('close-popup');
+            detailsaboutiPadOS18.addEventListener('click', function() {
+                popup.style.display = 'flex';
+            });
+            ninesixteentwentytwentyfour.addEventListener('click', function() {
+                popup.style.display = 'flex';
+            });
+            closePopup.addEventListener('click', function() {
+                popup.style.display = 'none';
+            });
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    popup.style.display = 'none';
+                }
+            });
+        </script>
+        <footer>
+            &copy; 2024 Danielle Laurence Lenon
+        </footer>
+    </div>
+</body>
+</html>

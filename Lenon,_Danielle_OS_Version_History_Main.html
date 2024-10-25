@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OS Version History Main</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Rubik", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+            font-size: 17.5px;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px 20px 20px 20px;
+            margin: 30px;
+            box-shadow: 8px 8px 15px #d1d1d1, -8px -8px 15px #ffffff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 17.5px;
+        }
+        .header .headeridentity {
+            font-size: 30px;
+        }
+        .header img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo {
+            margin-top: 15px;
+            margin-left: 15px;
+        }
+        .header .tagline {
+            font-size: 30px;
+            color: #999;
+            margin-top: 18px;
+            margin-left: 10px;
+            margin-right: 12.5px;
+        }
+        .content {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            align-items: stretch;
+        }
+        .content .left, .content .right {
+            flex: 1;
+            min-width: 300px;
+            max-width: calc(50% - 10px);
+            display: flex;
+            flex-direction: column;
+        }
+        .content .left > *, .content .right > * {
+            flex: 1;
+        }
+        .content .left img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .header, .os-images, .about, .faq, .support {
+            background-color: #f5f5f5;
+            box-shadow:  6px 6px 10px #d1d1d1, 
+                          -6px -6px 10px #ffffff;
+            border-radius: 10px;
+        }
+        .os-images, .about, .faq, .support {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            height: 300px;
+            width: 100%;
+        }
+        .os-images, .about, .support {
+            display: flex;
+        }
+        .about, .faq, .support {
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .os-images {
+            flex-direction: row;
+            justify-content: space-evenly;
+        }
+        .about h2, .faq h2, .support h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .about p, .faq p, .support p {
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .faq {
+            display: block;
+        }
+        .support {
+            position: relative;
+        }
+        .support form {
+            display: flex;
+            flex-direction: column;
+        }
+        .support input, .support textarea {
+            font-family: "Rubik", sans-serif;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .support input[type="submit"] {
+            background-color: #a1a1a1;
+            color: white;
+            cursor: pointer;
+        }
+        .support input[type="submit"]:hover {
+            background-color: #8e8e8e;
+        }
+        #confirmationpopup, #thankYoupopup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        #confirmationpopup h2, #thankYoupopup h2 {
+            font-family: "Rubik", sans-serif;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        #confirmationpopup {
+            width: 400px;
+        }
+        #thankYoupopup {
+            width: 300px;
+            text-align: center;
+        }
+        .popup-buttons {
+            display: flex;
+            justify-content: center;
+        }
+        .popup-buttons button {
+            font-family: "Rubik", sans-serif;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .confirm-btn {
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            box-shadow: 
+                5px 5px 10px #d1d1d1, 
+                -5px -5px 10px #ffffff;
+            justify-content: center;
+            width: 100px;
+        }
+        .confirm-btn:hover {
+            background-color: #0056b3;
+            box-shadow: 
+                inset 3px 3px 5px #d1d1d1, 
+                inset -3px -3px 5px #ffffff;
+        }
+        .close-btn {
+            background-color: #f7f2f2;
+            box-shadow: 
+                3px 3px 5px #d1d1d1, 
+                -3px -3px 5px #ffffff;
+            color: black;
+            width: 30px;
+            height: 30px;
+            font-size: 15px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .close-btn:hover {
+            background-color: #f1e9e9;
+            box-shadow: 
+                inset 2px 2px 3px #d1d1d1, 
+                inset -2px -2px 3px #ffffff;
+        }
+        .os-image-container {
+            text-align: center;
+            width: 40%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.2s ease;
+        }
+        .os-image-container:hover {
+            transform: scale(1.05);
+        }
+        .os-image-container img {
+            width: 100%;
+            max-width: 200px;
+            border-radius: 10px;
+        }
+        .os-label {
+            font-family: "Rubik", sans-serif;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        #send-button {
+            width: 150px;
+            height: 40px;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: not-allowed;
+            transition: all 0.3s ease, transform 0.2s ease;
+            background-color: #3d3e3e;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                0 2px 4px rgba(255, 255, 255, 0.5) inset;
+        }
+        #send-button.enabled {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            opacity: 1;
+        }
+        #supportForm {
+            display: flex;
+            flex-direction: column;
+        }
+        #send-button:disabled {
+            background-color: #888;
+            box-shadow: none;
+        }
+        #send-button:not(:disabled):hover {
+            background-color: #0056b3;
+            box-shadow: 
+                0 5px 15px rgba(0, 0, 0, 0.2),
+                0 2px 4px rgba(255, 255, 255, 0.5) inset;
+        }        
+        input, textarea {
+            background-color: #ffffff;
+            box-shadow: 2px 2px 5px #d1d1d1;
+            border-radius: 8px;
+            padding: 10px;
+            transition: box-shadow 0.3s ease;
+        }
+        input:focus, textarea:focus {
+            outline: none;
+            box-shadow: 3px 3px 7px #c0c0c0;
+        }
+        input[type="submit"] {
+            background-color: #007BFF;
+            box-shadow:  6px 6px 10px #d1d1d1, 
+                          -6px -6px 10px #ffffff;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        input[type="submit"]:hover {
+            box-shadow: 4px 4px 10px #d1d1d1, 
+                        -4px -4px 10px #ffffff;
+            transform: translateY(-2px);
+        }
+        a, button, input[type="button"], input[type="submit"] {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        a:hover, button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .confirm-btn:hover, .close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #send-button:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 7px 15px rgba(0, 0, 0, 0.3),
+                0 2px 4px rgba(255, 255, 255, 0.5) inset;
+        }
+        #confirmationpopup {
+            background-color: #f3f3f3;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        .confirmation-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .confirmation-field {
+            display: flex;
+            flex-direction: column;
+        }
+        .confirmation-field label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .confirmation-field div {
+            background-color: #fefefe;
+            padding: 10px;
+            border-radius: 5px;
+            min-height: 20px;
+            box-shadow: 
+                inset 3px 3px 5px #d1d1d1, 
+                inset -3px -3px 5px #ffffff;
+        }
+        .confirmation-field div:hover {
+            box-shadow: 
+                inset 4px 4px 6px #d1d1d1, 
+                inset -4px -4px 6px #ffffff;
+        }
+        #confirmFeedback {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        #overlay {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="headeridentity">
+                <img src="https://e7.pngegg.com/pngimages/991/940/png-clipart-apple-logo-apple-heart-logo-thumbnail.png" class="logo" alt=""><strong>OS Version History</strong>
+            </div>
+            <div class="tagline">Immersion. Envision.</div>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="os-images">
+                    <div class="os-image-container">
+                        <br><br><br>
+                        <a href="Lenon,_Danielle_iOS_October_2024.html"><img src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp/psp_navicons/image-grid-iphone-tn_2x.png" alt=""></a>
+                        <div class="os-label"><a href="Lenon,_Danielle_iOS_October_2024.html">iOS</a></div>
+                    </div>
+                    <div class="os-image-container">
+                        <br><br><br><br><br>
+                        <a href="Lenon,_Danielle_iPadOS_October_2024.html"><img src="https://support.apple.com/content/dam/edam/applecare/images/en_US/psp/psp_navicons/image-grid-ipad-tn_2x.png" alt=""></a>
+                        <div class="os-label"><a href="Lenon,_Danielle_iPadOS_October_2024.html">iPadOS</a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="right">
+                <div class="about">
+                    <h2>About</h2>
+                    <p style="text-align: justify;">Our vision is to empower individuals with a deep understanding of Apple's software evolution by providing a comprehensive and accessible OS Version History — highlighting the continuous innovation, dedication, and tireless community efforts in shaping and transforming user experiences.</p><br>
+                    <p style="text-align: justify;">Our mission is to chronologically document and preserve the rich history of Apple's operating systems, fostering a deeper appreciation for the company's relentless pursuit of perfection. Through this, we aim to enable users, developers, and enthusiasts to recognize, recall, and reflect on the pivotal milestones and development phases that have shaped the modern digital landscape.</p>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="left">
+                <div class="faq">
+                    <h2>Frequently Asked Questions (FAQ)</h2>
+                    <p style="text-align: center; margin-top: 10px;">There are no questions so far. Maybe it's the sign you should ask to make your voices heard!</p>
+                </div>
+            </div>
+            <div class="right">
+                <div class="support">
+                    <h2>Support</h2>
+                    <form id="supportForm">
+                        <input type="text" id="firstName" placeholder="Enter your first name..." required>
+                        <input type="text" id="surname" placeholder="Enter your surname..." required>
+                        <input type="email" id="email" placeholder="Enter your email..." required>
+                        <input type="text" id="contact" placeholder="Enter your contact number (Format: +63 012 345 6789)" required>
+                        <textarea id="feedback" rows="7" placeholder="Enter your feedback..." required></textarea>
+                        <br><br><br>
+                        <input type="button" id="send-button" class="enabled" value="Send">
+                    </form>
+                    <p style="font-size: 12.5px;">&copy; 2024 Danielle Laurence Lenon</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    <div id="confirmationpopup">
+        <button class="close-btn" id="closeConfirmationpopup"><strong>X</strong></button>
+        <h2>Support Confirmation</h2>
+        <div class="confirmation-content">
+            <div class="confirmation-field">
+                <label>First Name:</label>
+                <div id="confirmFirstName"></div>
+            </div>
+            <div class="confirmation-field">
+                <label>Surname:</label>
+                <div id="confirmSurname"></div>
+            </div>
+            <div class="confirmation-field">
+                <label>Email:</label>
+                <div id="confirmEmail"></div>
+            </div>
+            <div class="confirmation-field">
+                <label>Contact Number:</label>
+                <div id="confirmContact"></div>
+            </div>
+            <div class="confirmation-field">
+                <label>Feedback:</label>
+                <div id="confirmFeedback"></div>
+            </div>
+        </div>
+        <div class="popup-buttons">
+            <button class="confirm-btn" id="confirmSubmit">Confirm</button>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    <div id="thankYoupopup">
+        <button class="close-btn" id="closeThankYou"><strong>X</strong></button>
+        <br><br>
+        <h2>Thank you for<br>interacting with<br>Support!</h2>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.getElementById('send-button');
+            const inputs = document.querySelectorAll('#supportForm input[required], #supportForm textarea[required]');
+            const confirmationpopup = document.getElementById('confirmationpopup');
+            const thankYoupopup = document.getElementById('thankYoupopup');
+            const supportForm = document.getElementById('supportForm');
+            function checkFormValidity() {
+                let allFilled = true;
+                inputs.forEach(input => {
+                    if (!input.value.trim()) {
+                        allFilled = false;
+                    }
+                });
+                sendButton.disabled = !allFilled;
+            }
+            function populateConfirmationpopup() {
+                const fields = ['firstName', 'surname', 'email', 'contact', 'feedback'];
+                fields.forEach(field => {
+                    document.getElementById('confirm' + field.charAt(0).toUpperCase() + field.slice(1)).innerText = document.getElementById(field).value;
+                });
+            }
+            inputs.forEach(input => {
+                input.addEventListener('input', checkFormValidity);
+            });
+            checkFormValidity();
+            sendButton.addEventListener('click', function(event) {
+                event.preventDefault();
+                if (!sendButton.disabled) {
+                    populateConfirmationpopup();
+                    document.getElementById('overlay').style.display = 'block';
+                    confirmationpopup.style.display = 'block';
+                }
+            });
+            supportForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                populateConfirmationpopup();
+                document.getElementById('overlay').style.display = 'block';
+                confirmationpopup.style.display = 'block';
+            });
+            document.getElementById('closeConfirmationpopup').addEventListener('click', function() {
+                document.getElementById('overlay').style.display = 'none';
+                confirmationpopup.style.display = 'none';
+            });
+            document.getElementById('confirmSubmit').addEventListener('click', function() {
+                document.getElementById('overlay').style.display = 'block';
+                confirmationpopup.style.display = 'none';
+                thankYoupopup.style.display = 'block';
+            });
+            document.getElementById('closeThankYou').addEventListener('click', function() {
+                thankYoupopup.style.display = 'none';
+                document.getElementById('overlay').style.display = 'none';
+                supportForm.reset();
+                checkFormValidity();
+            });
+            document.getElementById('cancelSubmit').addEventListener('click', function() {
+                document.getElementById('overlay').style.display = 'none';
+                confirmationpopup.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
