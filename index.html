@@ -370,6 +370,82 @@
             justify-content: center;
             align-items: center;
         }
+        @media (max-width: 1024px) {
+            .header .headeridentity {
+                font-size: 24px;
+            }
+            .header .tagline {
+                font-size: 18px;
+            }
+            .container {
+                padding: 15px;
+                margin: 20px;
+            }
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .content .left, .content .right {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .header .headeridentity {
+                font-size: 20px;
+            }
+            .header .tagline {
+                font-size: 16px;
+            }
+            .about h2, .faq h2, .support h2 {
+                font-size: 18px;
+            }
+            .about p, .faq p, .support p {
+                font-size: 14px;
+            }
+            .container {
+                margin: 15px;
+                padding: 15px;
+            }
+            #send-button {
+                width: 100%;
+            }
+        }
+        @media (max-width: 576px) {
+            .header .headeridentity {
+                font-size: 18px;
+            }
+            .header .tagline {
+                font-size: 14px;
+            }
+            a {
+                font-size: 15px;
+            }
+            .about h2, .faq h2, .support h2 {
+                font-size: 16px;
+            }
+            .about p, .faq p, .support p {
+                font-size: 13px;
+            }
+            .container {
+                margin: 10px;
+                padding: 10px;
+            }
+        }
+        @media (max-width: 400px) {
+            .header .headeridentity, .header .tagline {
+                font-size: 14px;
+            }
+            .about h2, .faq h2, .support h2 {
+                font-size: 14px;
+            }
+            .about p, .faq p, .support p {
+                font-size: 12px;
+            }
+            #send-button {
+                font-size: 13px;
+                padding: 8px;
+            }
+        }
     </style>
 </head>
 <body>

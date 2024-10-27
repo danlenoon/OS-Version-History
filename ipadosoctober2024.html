@@ -224,6 +224,51 @@
         .popup-trigger {
             margin-bottom: 2.5px;
         }
+        @media (max-width: 1024px) {
+            .headeridentity, .transferos {
+                font-size: 20px;
+            }
+            .monthcolumn, .yearcolumn, .centercolumn {
+                max-width: 48%;
+                margin-bottom: 10px;
+            }
+            .firstlist, .secondlist {
+                flex: 1 1 48%;
+            }
+            .popup-content {
+                width: 80%;
+            }
+        }
+        @media (max-width: 768px) {
+            .headeridentity, .transferos {
+                font-size: 18px;
+            }
+            .monthcolumn, .yearcolumn, .centercolumn {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            .firstlist, .secondlist {
+                flex: 1 1 100%;
+            }
+            .popup-content {
+                width: 90%;
+            }
+        }
+        @media (max-width: 480px) {
+            .header img {
+                height: 20px;
+                margin-right: 8px;
+            }
+            .content p {
+                font-size: 14px;
+            }
+            .date-info, .list-container {
+                flex-direction: column;
+            }
+            .headeridentity, .transferos {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -260,7 +305,7 @@
                     </div>
                     <div class="secondlist">
                         <p id="detailsaboutipados18.0.1" class="popup-trigger"><strong>iPadOS 18.0.1</strong></p>
-                        <p id="exclusivedetailsaboutipados18.0.1" class="popup-trigger"><strong><u>iPadOS 18.0.1<sup>1</sup></sup></u></strong></p>
+                        <p id="exclusivedetailsaboutipados18.0.1" class="popup-trigger"><strong><u>iPadOS 18.0.1<sup>1</sup></u></strong></p>
                     </div>
                 </div>
             </div>
