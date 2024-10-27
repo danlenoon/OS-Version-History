@@ -1,0 +1,382 @@
+<!-- Lenon, Danielle Laurence -->
+<!-- CS-203 -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPadOS Version History</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Rubik", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        a {
+            text-decoration: none;
+            color: black;
+            transition: transform 0.3s ease;
+        }
+        a:hover {
+            transform: scale(1.025);
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 30px auto;
+            box-shadow: 8px 8px 15px #d1d1d1, -8px -8px 15px #ffffff;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            overflow-y: auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            border-radius: 10px;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .header .headeridentity {
+            font-size: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .header img {
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .logo {
+            margin-left: 0;
+        }
+        .header .transferos {
+            font-family: "Rubik", sans-serif;
+            font-size: 20px;
+            color: black;
+            margin-left: 10px;
+        }
+        .content {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .content p {
+            font-family: "Rubik", sans-serif;
+            font-size: 15px;
+            color: #4f4f4f;
+            line-height: 1.6;
+        }
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            position: relative;
+        }
+        .monthcolumn, .yearcolumn {
+            flex: 0 0 23.75%;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+        }
+        .centercolumn {
+            flex: 0 0 48.75%;
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: left;
+            box-shadow: 6px 6px 10px #d1d1d1, -6px -6px 10px #ffffff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .monthcolumn .column-title, .yearcolumn .column-title {
+            margin-bottom: 10px;
+        }
+        .date-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .date-header .year {
+            text-align: right;
+        }        
+        .centercolumn .list-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 5px;
+        }
+        .centercolumn .firstlist {
+            flex: 0 0 38.5%;
+            margin-right: 10px;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .centercolumn .secondlist {
+            flex: 0 0 58.5%;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: inset 3px 3px 6px #d1d1d1, inset -3px -3px 6px #ffffff;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }        
+        .centercolumn .firstlist:last-child, .secondlist:last-child {
+            margin-right: 0;
+        }
+        .list p {
+            background-color: #d0d0d0;
+            border-radius: 5px;
+            padding: 5px;
+            font-size: 15px;
+            text-align: left;
+            box-shadow: 2px 2px 4px #bebebe, -2px -2px 4px #ffffff;
+            margin-bottom: 7.5px;
+        }
+        .list p.selected {
+            background-color: #d0d0d0;
+        }
+        .list p.notselected {
+            background-color: transparent;
+            box-shadow: none;
+        }
+        footer {
+            font-family: "Rubik", sans-serif;
+            text-align: center;
+            font-size: 13px;
+            color: black;
+            margin-top: 20px;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+            width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            text-align: justify;
+        }
+        .close-btn {
+            background-color: #f7f2f2;
+            box-shadow: 
+                3px 3px 5px #d1d1d1, 
+                -3px -3px 5px #ffffff;
+            color: black;
+            width: 30px;
+            height: 30px;
+            font-size: 15px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        .close-btn:hover {
+            background-color: #f1e9e9;
+            box-shadow: 
+                inset 2px 2px 3px #d1d1d1, 
+                inset -2px -2px 3px #ffffff;
+        }
+        .popup-trigger {
+            margin-bottom: 2.5px;
+        }
+        @media (max-width: 1024px) {
+            .headeridentity, .transferos {
+                font-size: 20px;
+            }
+            .monthcolumn, .yearcolumn, .centercolumn {
+                max-width: 48%;
+                margin-bottom: 10px;
+            }
+            .firstlist, .secondlist {
+                flex: 1 1 48%;
+            }
+            .popup-content {
+                width: 80%;
+            }
+        }
+        @media (max-width: 768px) {
+            .headeridentity, .transferos {
+                font-size: 18px;
+            }
+            .monthcolumn, .yearcolumn, .centercolumn {
+                max-width: 100%;
+                margin-bottom: 15px;
+            }
+            .firstlist, .secondlist {
+                flex: 1 1 100%;
+            }
+            .popup-content {
+                width: 90%;
+            }
+        }
+        @media (max-width: 480px) {
+            .header img {
+                height: 20px;
+                margin-right: 8px;
+            }
+            .content p {
+                font-size: 14px;
+            }
+            .date-info, .list-container {
+                flex-direction: column;
+            }
+            .headeridentity, .transferos {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="headeridentity">
+                <a href="index.html"><img src="https://e7.pngegg.com/pngimages/991/940/png-clipart-apple-logo-apple-heart-logo-thumbnail.png" class="logo" alt=""><strong>OS Version History</strong></a>
+            </div>
+            <div class="transferos"><a href="iosoctober2024.html">iOS</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>iPadOS</strong></div>
+        </div>
+        <div class="content">
+            <p>Welcome to iPadOS Version History! This version is exclusive to iPads because it evolved when it formerly ran iOS. We are looking back on what iPadOS versions looked like when released to the public. The <strong>bolded texts</strong> are the public versions and the <u>underlined texts</u> are the exclusive versions.</p>
+            <br>
+            <p>1. The numbers in superscripted text versions state something.</p>
+            <p>2. These dates have referred to in GMT-07:00 (California Daylight Time) and GMT-08:00 (California Standard Time).</p>
+        </div>
+        <div class="date-info">
+            <div class="monthcolumn">
+                <h3 class="column-title">MONTH</h3>
+                <div class="list">
+                    <p class="notselected"><a href="ipadosseptember2024.html"><strong>9</strong> SEPTEMBER</a></p>
+                    <p class="selected"><strong>10</strong> OCTOBER</p>
+                </div>
+            </div>
+            <div class="centercolumn">
+                <div class="date-header">
+                    <h3 class="column-title">10 OCTOBER</h3>
+                    <h3 class="column-title year">2024</h3>
+                </div>
+                <div class="list-container">
+                    <div class="firstlist">
+                        <p id="tenthreetwentytwentyfour" class="popup-trigger"><strong>10.3.2024</strong></p>
+                        <p id="tentwentythreetwentytwentyfour" class="popup-trigger"><strong><u>10.23.2024</u></strong></p>
+                    </div>
+                    <div class="secondlist">
+                        <p id="detailsaboutipados18.0.1" class="popup-trigger"><strong>iPadOS 18.0.1</strong></p>
+                        <p id="exclusivedetailsaboutipados18.0.1" class="popup-trigger"><strong><u>iPadOS 18.0.1<sup>1</sup></u></strong></p>
+                    </div>
+                </div>
+            </div>
+            <div class="yearcolumn">
+                <h3 class="column-title">YEAR</h3>
+                <div class="list">
+                    <p class="selected"><strong>2024</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="popup" id="popup">
+            <div class="popup-content">
+                <button class="close-btn" id="close-popup">X</button>
+                <h1>iPadOS 18.0.1</h1>
+                <br>
+                <p>This update enables iPad Pro with M4 to update to iPadOS 18 and provides important bug fixes and security updates for your iPad including:</p><br>
+                <ul>
+                    <li>Messages may unexpectedly quit when replying to a message with a shared Apple Watch face</li>
+                    <li>Performance may be impacted due to an issue with memory allocation on some iPad models</li>
+                </ul>
+            </div>
+        </div>
+        <div class="popup" id="popup2">
+            <div class="popup-content">
+                <button class="close-btn" id="close-popup2">X</button>
+                <h1>iPadOS 18.0.1</h1>
+                <br>
+                <p>1. Exclusive public version for iPad mini (A17 Pro).</p>
+            </div>
+        </div>
+        <script>
+            const detailsaboutiPadOS18_0_1 = document.getElementById('detailsaboutipados18.0.1');
+            const tenthreetwentytwentyfour = document.getElementById('tenthreetwentytwentyfour');
+            const exclusivedetailsaboutiPadOS18_0_1 = document.getElementById('exclusivedetailsaboutipados18.0.1');
+            const tentwentythreetwentytwentyfour = document.getElementById('tentwentythreetwentytwentyfour');
+            const popup = document.getElementById('popup');
+            const popup2 = document.getElementById('popup2');
+            const closePopup = document.getElementById('close-popup');
+            const closePopup2 = document.getElementById('close-popup2');
+            detailsaboutiPadOS18_0_1.addEventListener('click', function() {
+                popup.style.display = 'flex';
+            });
+            tenthreetwentytwentyfour.addEventListener('click', function() {
+                popup.style.display = 'flex';
+            });
+            closePopup.addEventListener('click', function() {
+                popup.style.display = 'none';
+            });
+            popup.addEventListener('click', function(e) {
+                if (e.target === popup) {
+                    popup.style.display = 'none';
+                }
+            });
+            exclusivedetailsaboutiPadOS18_0_1.addEventListener('click', function() {
+                popup2.style.display = 'flex';
+            });
+            tentwentythreetwentytwentyfour.addEventListener('click', function() {
+                popup2.style.display = 'flex';
+            });
+            closePopup2.addEventListener('click', function() {
+                popup2.style.display = 'none';
+            });
+            popup2.addEventListener('click', function(e) {
+                if (e.target === popup2) {
+                    popup2.style.display = 'none';
+                }
+            });
+        </script>
+        <footer>
+            &copy; 2024 Danielle Laurence Lenon
+        </footer>
+    </div>
+</body>
+</html>
